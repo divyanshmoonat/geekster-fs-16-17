@@ -1,0 +1,3 @@
+ABCDEFGHNew line added by append file functionNew line added by append file function
+New line added by append file function
+Sample file written by append fn
