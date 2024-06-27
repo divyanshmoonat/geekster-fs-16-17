@@ -1,0 +1,6 @@
+25 June
+
+127.0.0.1 => PC Ip address
+localhost => Domain of PC
+
+End point => API URL
