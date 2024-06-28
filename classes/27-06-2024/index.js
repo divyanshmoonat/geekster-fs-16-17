@@ -1,4 +1,10 @@
 const express = require("express");
+const responseTime = require("response-time");
+const morgan = require("morgan");
+
+const cartRoutes = require("./cartApi");
+const productRoutes = require("./productApi");
+const userRoutes = require("./userApi");
 
 // Server initialization
 const app = express();
@@ -8,6 +14,7 @@ const users = [
     id: 1,
     name: "John",
     mobNo: "1231231231",
+    profilePicture: "http://localhost:10000/profilePicture.png",
   },
   {
     id: 2,
@@ -37,79 +44,45 @@ const apiKeyMiddleware = (req, res, next) => {
 
 const m2 = (req, res, next) => {
   console.log("Middleware 2");
+  const { firstName, lastName } = req.query;
+  const fullName = `${firstName} ${lastName}`;
+  req.fullName = fullName;
   next();
+  //   next("Error occured");
   //   res.json({ msg: "Response from M2" });
 };
 
 const m3 = (req, res, next) => {
-  console.log("Middleware 3");
+  console.log("Middleware 3", req.fullName);
   next();
   //   res.json({ msg: "Response from M3" });
 };
 
+const errorHandler = (err, req, res, next) => {
+  console.log("ERROR OCCURED IN SYSTEM");
+  // Save the error in a file
+  res.status(500).json({
+    success: false,
+    message: "Something went wrong, please try again after sometime",
+  });
+};
+
 // Applicaiton middlewares
-app.use(apiKeyMiddleware); // Apply middlewares
+app.use(express.json()); // req.body
+app.use(express.urlencoded());
+app.use(express.static("files"));
+// app.use(apiKeyMiddleware); // Apply middlewares
+// app.use(responseTime());
+// app.use(morgan("dev"));
 // app.use(m2);
-// app.use(m3);
+app.use(m3);
 
 // API End points
-app.get("/login", (req, res, next) => {
-  console.log("LOGIN API CALLED");
-  res.json({
-    success: true,
-    message: "Login GET API",
-  });
-});
+app.use(cartRoutes);
+app.use(productRoutes);
+app.use(userRoutes);
 
-app.post("/login", (req, res, next) => {
-  res.json({
-    success: true,
-    message: "Login POST API",
-  });
-});
-
-app.get("/user", (req, res, next) => {
-  //   next();
-  const params = req.query;
-  console.log(req.query);
-  const user = users.find((u) => u.id == params.userId);
-  if (!params.userId) {
-    return res.json({
-      success: true,
-      results: users,
-    });
-  }
-  if (!user) {
-    res.status(404).json({
-      success: false,
-      message: "User not found",
-    });
-  } else {
-    res.json({
-      success: true,
-      messge: "Dummy get user API",
-      results: user,
-    });
-  }
-}); // List Get APIs
-
-app.get("/user/:id", (req, res) => {
-  const params = req.params;
-  //   console.log(req.params);
-  const user = users.find((u) => u.id == params.id);
-  if (!user) {
-    res.status(404).json({
-      success: false,
-      message: "User not found",
-    });
-  } else {
-    res.json({
-      success: true,
-      messge: "Dummy get user API",
-      results: user,
-    });
-  }
-});
+app.use(errorHandler);
 
 app.listen(10000, () =>
   console.log(`Express Server is up and running at port 10000`)

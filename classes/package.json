@@ -12,7 +12,9 @@
   "dependencies": {
     "express": "^4.19.2",
     "geekster_greet": "^1.1.0",
-    "node-wifi": "^2.0.16"
+    "morgan": "^1.10.0",
+    "node-wifi": "^2.0.16",
+    "response-time": "^2.3.2"
   },
   "devDependencies": {
     "chalk": "^4.0.0"
