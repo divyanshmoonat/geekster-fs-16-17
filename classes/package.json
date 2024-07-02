@@ -4,7 +4,7 @@
   "description": "My first backend project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon 27-06-2024/index.js",
+    "start": "nodemon 02-07-2024/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "divyansh",
