@@ -1,0 +1,151 @@
+CLI -> Command Line Interface
+GUI -> Graphical User Interface (MongoDB Compass, Robo Mongo etc)
+
+http://localhost:10000
+http://localhost:5174
+mongodb://localhost:27017 => MongoDB Connection URL
+
+BSON 
+
+
+show databases
+use <DB NAME>
+show collecitons
+
+CRUD on MongoDB -> Queries
+
+Read ----------------------------------
+
+Syntax : db.<COLLECTION NAME>.find()
+
+Operators : 
+
+Comparision Operators : 
+==  $eq
+>   $gt
+<   $lt
+>=  $gte
+<=  $lte
+!=  $ne
+
+Logical Operators
+
+&& $and
+|| $or
+
+1. Find all the products available in db
+    db.products.find()
+
+2. Find all the products whose price is greater than 50
+    db.products.find({ price : { $gt: 50 } })
+
+3. Find all the products whose price is less than 50
+    db.products.find({ price : { $lt: 50 } })
+
+4. Find all the products whose rating is 4.9 or above
+    db.products.find({ rating : { $gte: 4.9 }  })
+
+5. Find all the products whose price is less than 100 and rating is greater than 4.9
+    db.products.find({
+        price: {
+            $lt: 100
+        },
+        rating: {
+            $gt: 4.9
+        }
+    })
+
+    db.products.find({
+        $and : [
+            {
+                price: {
+                    $lt: 100
+                }
+            },
+            {
+                rating: {
+                    $gt: 4.9
+                }
+            }
+        ]
+    })
+
+6. Find all the products whose price is less than 50 or discountPercentage is greater than 10
+    db.products.find({
+        price: {
+            $lt: 50
+        },
+        discountPercentage: {
+            $gt: 10
+        }
+    })
+
+    if(price < 50 || discountPercentage > 10)
+
+    db.products.find({
+        $or : [
+            {
+                price: {
+                    $lt: 50
+                }
+            },
+            {
+                discountPercentage: {
+                    $gt: 10
+                }
+            },
+        ]
+    })
+
+7. Find all the products whose price is between 50 and 100 or rating is greater than 4.95
+   if((price > 50 && price <100) || rating > 4.95)
+
+   db.products.find({
+    $or: [
+        {
+            $and: [
+                {
+                    price: {
+                        $gt: 50
+                    }
+                },
+                {
+                    price: {
+                        $lt: 100
+                    }
+                }
+            ]
+        },
+        { 
+            rating: {
+                $gt: 4.95
+            }
+        }
+    ]
+   })
+
+    db.products.find({
+        $or: [
+            {
+                price: {
+                    $gt: 50
+                },
+                price: {
+                    $lt: 100
+                }
+            },
+            { 
+                rating: {
+                    $gt: 4.95
+                }
+            }
+        ]
+   })
+
+
+8. Find all the products having perfume in their title
+    db.products.find({
+        title: {
+            $regex: /perfume/gi
+        }
+    })
