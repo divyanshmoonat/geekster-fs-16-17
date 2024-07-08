@@ -36,7 +36,21 @@ const listJob = async (req, res) => {
   });
 };
 
-const updateJob = (req, res) => {
+const updateJob = async (req, res) => {
+  console.log(req.params.id);
+  // ToDo: Apply validations here
+  const updateObj = {
+    $set: req.body,
+  };
+  const filterObj = {
+    salary: {
+        $lte: 80000
+    },
+  };
+  //   const response = await JobModel.findByIdAndUpdate(req.params.id, updateObj);
+  const response = await JobModel.updateMany(filterObj, updateObj);
+
+  console.log(response);
   res.json({
     success: true,
     message: "Update job API",
@@ -44,6 +58,8 @@ const updateJob = (req, res) => {
 };
 
 const deleteJob = (req, res) => {
+    // JobModel.findByIdAndDelete(id);
+    // JobModel.deleteMany();
   res.json({
     success: true,
     message: "Delete job API",
