@@ -1,12 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
 const jobRoutes = require("./route/job");
 
 const app = express();
 
+dotenv.config();
+
+console.log("mongoDB URI => ", process.env.DATABASE_URI);
 mongoose
-  .connect("mongodb+srv://djain7429:4PVCk0BAwPRFbGnj@cluster0.xomtfof.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+  .connect(process.env.DATABASE_URI)
   .then(() => console.log("DB Connected successfully"))
   .catch((err) => console.log("Error connecting database", err));
 
