@@ -4,7 +4,7 @@
   "description": "My first backend project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon 02-07-2024/index.js",
+    "start": "nodemon 09-07-2024/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "divyansh",
@@ -14,6 +14,7 @@
     "geekster_greet": "^1.1.0",
     "morgan": "^1.10.0",
     "node-wifi": "^2.0.16",
+    "nodemailer": "^6.9.14",
     "response-time": "^2.3.2"
   },
   "devDependencies": {
