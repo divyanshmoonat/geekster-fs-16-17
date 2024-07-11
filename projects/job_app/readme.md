@@ -40,3 +40,7 @@ Collections => jobs
 
 // Schema
 
+Git clone
+go to respective folder
+npm i
+node index.js
