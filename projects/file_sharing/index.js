@@ -6,7 +6,7 @@ const fileRoutes = require("./route/file");
 const app = express();
 
 mongoose
-  .connect("mongodb://localhost:27017/file_app")
+  .connect(process.env.DATABASE_URI)
   .then(() => console.log("DB Connected Successfully"))
   .catch((err) => console.log("Error connecting Database", err));
 

@@ -2,8 +2,18 @@ const path = require("path");
 
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
 
 const FileModel = require("../model/file");
+
+dotenv.config();
+
+const transporter = nodemailer.createTransport({
+  host: "localhost",
+  port: "1025",
+  secure: false,
+});
 
 // console.log(uuidv4() + ".pdf .jpg .js");
 
@@ -23,9 +33,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: {
-    fileSize: 1024,
-  },
+  //   limits: {
+  //     fileSize: 1024,
+  //   },
 }).single("attachment");
 
 const uploadFile = (req, res) => {
@@ -43,17 +53,69 @@ const uploadFile = (req, res) => {
       newName: req.file.filename,
       size: req.file.size,
     };
-    await FileModel.create(fileData);
-    // console.log(req.body);
+    const newlyInsertedFile = await FileModel.create(fileData);
+    console.log(newlyInsertedFile);
     res.json({
       success: true,
       message: "File uploaded succesfully",
+      fileId: newlyInsertedFile._id,
+    });
+  });
+};
+
+const generateSharableLink = async (req, res) => {
+  const sharableLink = `/files/download/${req.params.fileId}`;
+  res.json({
+    success: true,
+    message: "Generate sharable link API",
+    result: sharableLink,
+  });
+};
+
+const downloadFile = async (req, res) => {
+  const fileId = req.params.fileId;
+  const fileData = await FileModel.findById(fileId);
+  console.log(fileData);
+  const path = `uploads/${fileData.newName}`;
+  res.download(path, fileData.originalName);
+};
+
+const sendEmail = async (req, res) => {
+  const fileId = req.body.fileId;
+  const sharableLink = `${process.env.BASE_URL}/files/download/${fileId}`;
+  // send mail
+  const emailData = {
+    to: req.body.email,
+    from: "do-not-reply@filesharing.com",
+    subject: "Your friend has shared a file with you!",
+    html: `
+        <p>
+            Your friend has shared a file with you via filesharing app, please click the link to download the file <a target="_blank" href="${sharableLink}">Click Here</a>
+        </p>
+    `,
+  };
+  transporter.sendMail(emailData, (error, info) => {
+    if (error) {
+      console.log(err);
+      return res.json({
+        success: false,
+        message: "Unable to send email",
+        error: err,
+      });
+    }
+    console.log(info);
+    res.json({
+      success: true,
+      message: "Mail sent successfully",
     });
   });
 };
 
 const fileController = {
   uploadFile,
+  generateSharableLink,
+  downloadFile,
+  sendEmail,
 };
 
 module.exports = fileController;
