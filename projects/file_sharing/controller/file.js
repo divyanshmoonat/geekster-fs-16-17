@@ -113,7 +113,7 @@ const sendEmail = async (req, res) => {
       return res.json({
         success: false,
         message: "Unable to send email",
-        error: err,
+        error: error,
       });
     }
     console.log(info);
