@@ -109,7 +109,7 @@ const sendEmail = async (req, res) => {
   };
   transporter.sendMail(emailData, (error, info) => {
     if (error) {
-      console.log(err);
+      console.log(error);
       return res.json({
         success: false,
         message: "Unable to send email",
