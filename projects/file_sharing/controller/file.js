@@ -65,6 +65,15 @@ const uploadFile = (req, res) => {
 
 const generateSharableLink = async (req, res) => {
   const sharableLink = `/files/download/${req.params.fileId}`;
+  // Todo : Add basic fileid validations
+  const fileData = await FileModel.findById(req.params.fileId);
+  if (!fileData) {
+    // File is not available for this ID
+    return res.status(400).json({
+      success: false,
+      message: "Inavlid File ID",
+    });
+  }
   res.json({
     success: true,
     message: "Generate sharable link API",
@@ -75,6 +84,10 @@ const generateSharableLink = async (req, res) => {
 const downloadFile = async (req, res) => {
   const fileId = req.params.fileId;
   const fileData = await FileModel.findById(fileId);
+  if (!fileData) {
+    // File is not available for this ID
+    return res.status(400).end("Invalid URL");
+  }
   console.log(fileData);
   const path = `uploads/${fileData.newName}`;
   res.download(path, fileData.originalName);
