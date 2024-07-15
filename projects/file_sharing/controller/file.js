@@ -13,6 +13,10 @@ const transporter = nodemailer.createTransport({
   host: "localhost",
   port: "1025",
   secure: false,
+  auth: {
+    username: "",
+    password: ""
+  }
 });
 
 // console.log(uuidv4() + ".pdf .jpg .js");
