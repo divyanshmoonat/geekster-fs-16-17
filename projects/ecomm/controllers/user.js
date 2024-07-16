@@ -1,9 +1,22 @@
-const { v4: uuidv4 } = require("uuid");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
 const UserModel = require("../models/user");
 
 const signUp = async (req, res) => {
   // ToDo: Validations
-  const newlyInsertedUser = await UserModel.create(req.body);
+
+  const salt = bcrypt.genSaltSync(10);
+
+  const hashedPassword = bcrypt.hashSync(req.body.password, salt);
+  // console.log("Plain Text Password", req.body.password);
+  // console.log("Hashed Password", hashedPassword);
+
+  const newlyInsertedUser = await UserModel.create({
+    ...req.body,
+    password: hashedPassword,
+    role: "CUSTOMER",
+  });
   res.json({
     success: true,
     message: "Registration completed, please login to continue",
@@ -28,7 +41,17 @@ const login = async (req, res) => {
     });
   }
 
-  const token = uuidv4();
+  const currentTimeInSeconds = Math.floor(new Date().getTime() / 1000);
+  const expiryTimeInSeconds = currentTimeInSeconds + 3600; // 1hr from now
+
+  const jwtPayload = {
+    userId: user._id,
+    role: user.role,
+    mobileNo: user.mobileNo,
+    exp: expiryTimeInSeconds,
+  };
+
+  const token = jwt.sign(jwtPayload, "MY_SECRET_KEY");
 
   await UserModel.findByIdAndUpdate(user._id, { $set: { token } });
 

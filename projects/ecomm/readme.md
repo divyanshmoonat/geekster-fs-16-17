@@ -19,3 +19,19 @@ when the user logs in save isLogged true in users collection for that user.
 unauthorized?
 authorization?
 authentication?
+
+Authentication : To verify the user if they are the same user they claim to be (Login)
+Authorization : Verifying the access level (permission) of the user (Role of the user)
+
+JWT (Json Web Token)
+
+
+abcd12345 => Plain Text
+
+asdf&*S*F9738947ff30_!%^# => Cipher Text
+
+Encode / Decode => Not related to security (Std conversion for different systems) 2 Way Process
+
+Encryption / Decryption => 2 Way process
+
+Hashing => 1 Way Process

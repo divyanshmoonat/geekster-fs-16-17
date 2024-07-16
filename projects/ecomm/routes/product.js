@@ -1,24 +1,12 @@
 const express = require("express");
 
-const UserModel = require("../models/user");
+const productController = require("../controllers/product");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.get("/list", async (req, res) => {
-  const token = req.body.token;
+router.get("/list", authMiddleware, productController.listProducts);
 
-  const isValidUser = await UserModel.findOne({ token: token });
-  if (!isValidUser) {
-    return res.status(401).json({
-      success: false,
-      message: "Please login to use this API",
-    });
-  }
-
-  console.log(token);
-  res.json({
-    success: true,
-  });
-});
+router.post("/create", authMiddleware, productController.createProduct);
 
 module.exports = router;

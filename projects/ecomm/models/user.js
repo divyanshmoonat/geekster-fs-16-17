@@ -53,6 +53,11 @@ const userSchema = new mongoose.Schema({
     type: address,
     required: true,
   },
+  role: {
+    type: String,
+    required: true,
+    enum: ["CUSTOMER", "SELLER", "ADMIN"],
+  },
   token: {
     type: String,
     required: false,
