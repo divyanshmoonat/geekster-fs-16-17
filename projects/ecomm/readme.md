@@ -35,3 +35,16 @@ Encode / Decode => Not related to security (Std conversion for different systems
 Encryption / Decryption => 2 Way process
 
 Hashing => 1 Way Process
+
+
+100 Records
+10 Items Per page -> 10 Pages
+
+Page Size = 10
+Page No -> 1 ==> 1 - 10
+Page No -> 2 ==> 11 - 20
+Page No -> 3 ===> 21 - 30
+.....
+
+
+Middlewares

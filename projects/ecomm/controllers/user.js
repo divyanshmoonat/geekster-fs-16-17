@@ -33,8 +33,13 @@ const login = async (req, res) => {
       message: "Invalid username or password",
     });
   }
+  console.log("DB Stored Password", user.password);
+  console.log("User entered Password", req.body.password);
 
-  if (user.password !== req.body.password) {
+  const isPasswordSame = await bcrypt.compare(req.body.password, user.password);
+  console.log(isPasswordSame);
+
+  if (!isPasswordSame) {
     return res.status(400).json({
       success: false,
       message: "Invalid username or password",
