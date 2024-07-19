@@ -48,3 +48,18 @@ Page No -> 3 ===> 21 - 30
 
 
 Middlewares
+
+Cart : [
+    {
+        _id: ObjectId(""),
+        qty: 1
+    },
+    {
+        _id: ObjectId(""),
+        qty: 2
+    },
+]
+
+
+1. Registration / Signup (isProfileVerified: false, otp: 1234, otpToken: "asdfasd-fasdf24ef", otpGeneratedAt: "") // Email for OTP
+2. Otp Validation /verify-otp (Req Body : otp, otpToken)

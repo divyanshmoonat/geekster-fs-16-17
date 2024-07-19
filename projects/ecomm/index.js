@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 
 const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
+const wishlistRoutes = require("./routes/wishlist");
 
 // Env configuration
 dotenv.config();
@@ -22,5 +23,6 @@ mongoose
 // API Routes
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product", productRoutes);
+app.use("/api/v1/wishlist", wishlistRoutes);
 
 app.listen(10_000, () => console.log(`Server is up and running at port 10000`));
