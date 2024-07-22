@@ -12,6 +12,8 @@
 ### Admin Portal
 Roles : Customer, Seller, Admin
 
+### Logistic Portal
+
 
 how will the product list api know that the user is logged in and WHICH USER IS CALLING THE API?
 when the user logs in save isLogged true in users collection for that user.

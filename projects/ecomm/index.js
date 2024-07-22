@@ -2,9 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
+const authMiddleware = require("./middlewares/authMiddleware");
+
 const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
 const wishlistRoutes = require("./routes/wishlist");
+const orderRoutes = require("./routes/order");
 
 // Env configuration
 dotenv.config();
@@ -24,5 +27,6 @@ mongoose
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/wishlist", wishlistRoutes);
+app.use("/api/v1/order", authMiddleware, orderRoutes);
 
 app.listen(10_000, () => console.log(`Server is up and running at port 10000`));
