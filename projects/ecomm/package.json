@@ -16,6 +16,7 @@
     "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.1",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "razorpay": "^2.9.4"
   }
 }

@@ -1,5 +1,15 @@
+const Razorpay = require("razorpay");
+
 const ProductModel = require("../models/product");
 const OrderModel = require("../models/order");
+
+const keyId = "rzp_test_GLJrczK2bB2W8X";
+const keySecret = "PmBODMfx3bFbMeR0iIrHSdA1";
+
+const razorpay = new Razorpay({
+  key_id: keyId,
+  key_secret: keySecret,
+});
 
 const placeOrder = async (req, res) => {
   /**
@@ -39,6 +49,15 @@ const placeOrder = async (req, res) => {
 
   if (req.body.modeOfPayment === "ONLINE") {
     // Redirect the user to payment Gateway
+    const orderDetailsForPg = {
+      amount: totalAmountToPay * 100, // amount in the smallest currency unit (paisa)
+      currency: "INR",
+      receipt: "order_rcptid_124", // place your actual order id here
+    };
+
+    const pgResponse = await razorpay.orders.create(orderDetailsForPg);
+    console.log(pgResponse);
+    // Send these details to frontend
   }
 
   const orderDetails = {

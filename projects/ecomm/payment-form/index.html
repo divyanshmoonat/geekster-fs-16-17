@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <title>Razor Pay Demo</title>
+  </head>
+  <body>
+    <button id="payBtn">Pay Now</button>
+    <script>
+      const btn = document.getElementById("payBtn");
+      btn.addEventListener("click", () => {
+        // Todo: Open razorpay window for payment
+        const rpOptions = {
+          key: "rzp_test_GLJrczK2bB2W8X",
+          amount: 119800,
+          currency: "INR",
+          name: "My eComm Store",
+          description: "My first eComm store with payment gateway",
+          image: "https://abc.com/logo.png",
+          order_id: "order_OcuqOl6AjydIEK",
+          theme: {
+            color: "#3399cc",
+          },
+          handler: function (response) {
+            console.log(response);
+            alert("Payment received successfully");
+          },
+        };
+        const razorpay = new Razorpay(rpOptions);
+        razorpay.open();
+      });
+    </script>
+  </body>
+</html>
